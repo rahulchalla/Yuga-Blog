@@ -1,0 +1,83 @@
+// ==============================
+// Colorful Blog — JS
+// ==============================
+const QUOTES=[
+  {q:"No mud, no lotus.",a:"Thich Nhat Hanh"},
+  {q:"What you practice grows stronger.",a:"Shauna Shapiro"},
+  {q:"Be messy and complicated and afraid and show up anyway.",a:"Glennon Doyle"},
+  {q:"Create the things you wish existed.",a:"Unknown"},
+  {q:"You are allowed to be both a masterpiece and a work in progress.",a:"Sophia Bush"}
+];
+const PROMPTS=[
+  "Write a kind letter to yourself one year ago.",
+  "Describe a tiny ritual that makes you feel safe.",
+  "Name one boundary that protects your energy. How will you honor it this week?",
+  "List three signs you’re growing (even if it feels slow).",
+  "What would done‑not‑perfect look like today?",
+  "Write about a time you kept going after a wobble."
+];
+const NUDGES=[
+  "Stretch your hands and jaw. Sip water.",
+  "Step outside for two minutes and notice the sky.",
+  "Send a ‘thinking of you’ text to a friend.",
+  "Put on a song you loved at 16 and dance for 60 seconds.",
+  "Choose the tiniest next step—then do it now."
+];
+const BOOKS=[
+  {title:"Big Magic",author:"Elizabeth Gilbert",takeaway:"Make things because it’s joyful, not because they’re perfect."},
+  {title:"Untamed",author:"Glennon Doyle",takeaway:"Trust your inner knowing."},
+  {title:"The Gifts of Imperfection",author:"Brené Brown",takeaway:"Courage grows from compassion and connection."}
+];
+const POSTS=[
+  {id:"soft-mornings",title:"Soft Mornings, Strong Days",category:"Self‑care",tags:["routines","gentleness"],minutes:4,excerpt:"I stopped trying to win mornings and started listening to them.",body:["I used to think my mornings needed trophies: a perfect workout, a perfect smoothie, a perfect mindset.","Now I light a candle and ask, ‘What do you need today?’ Sometimes the answer is movement. Sometimes it’s stillness.","Soft mornings made my days stronger. Strength isn’t always loud. Sometimes it’s quiet and steady."]},
+  {id:"creative-seasons",title:"Creative Seasons",category:"Creativity",tags:["art","rest"],minutes:5,excerpt:"Some months you bloom. Some months you collect rain.",body:["I thought creativity was a faucet I could leave on. Turns out it’s weather.","When it rains, I collect ideas with a smile. When it’s dry, I tend the soil—walks, books, friends, sleep.","Both are part of the season. Trust the cycle. Keep your tools in reach."]},
+  {id:"done-not-perfect",title:"Done, Not Perfect",category:"Growth",tags:["progress","kindness"],minutes:3,excerpt:"Perfection is a heavy coat. I’m learning to hang it up.",body:["Perfection used to stall my starts and steal my finishes.","Today my goal is smaller: move something forward by 1%.","Small moves compound into brighter pages. Call it gentle ambition."]},
+  {id:"friendship-tiny-touches",title:"Friendship Is Tiny Touches",category:"Life",tags:["community","joy"],minutes:4,excerpt:"Relationships grow in the in‑between moments.",body:["We wait for big plans and miss the tiny invitations: a voice memo, a meme, a ‘walk?’ text.","Tiny touches weave strong nets. Your people don’t need a performance; they need a ping.","Send one now. Future you will be glad."]},
+  {id:"rest-is-productive",title:"Rest Is Productive",category:"Self‑care",tags:["energy","boundaries"],minutes:4,excerpt:"Rest doesn’t steal time. It makes time usable.",body:["When I rest, my ideas stop shouting and start speaking.","Rest is not a reward for finishing—it’s a tool for continuing.","Try a 10‑minute lie‑down today. See what returns."]},
+  {id:"say-yes-to-small",title:"Say Yes to Small",category:"Growth",tags:["habits","momentum"],minutes:3,excerpt:"Small steps don’t look powerful. They are.",body:["I used to postpone joy until I could do it ‘properly’.","Now I ask, ‘What’s the smallest version I can do today?’ Five lines, one photo, a two‑minute stretch.","Life got bigger when my steps got smaller."]}
+];
+const CATEGORIES=[...new Set(POSTS.map(p=>p.category))];
+const $=(s,p=document)=>p.querySelector(s); const $$=(s,p=document)=>Array.from(p.querySelectorAll(s));
+
+function smoothScroll(){$$('.nav-link').forEach(a=>{a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id&&id.startsWith('#')){e.preventDefault();$(id)?.scrollIntoView({behavior:'smooth',block:'start'});const list=$('#nav-list');if(list&&list.getAttribute('aria-expanded')==='true'){list.setAttribute('aria-expanded','false');$('#navToggle').setAttribute('aria-expanded','false');}}});});}
+function scrollSpy(){const links=$$('.nav-link');const secs=links.map(l=>$(l.getAttribute('href')));let t=false;window.addEventListener('scroll',()=>{if(!t){requestAnimationFrame(()=>{const y=scrollY+90;let i=0;secs.forEach((s,idx)=>{if(s&&s.offsetTop<=y)i=idx;});links.forEach((l,idx)=>l.classList.toggle('active',idx===i));t=false;});t=true;}});}
+function mobileNav(){const t=$('#navToggle'),list=$('#nav-list');t?.addEventListener('click',()=>{const exp=t.getAttribute('aria-expanded')==='true';t.setAttribute('aria-expanded',String(!exp));list.setAttribute('aria-expanded',String(!exp));});}
+
+function progress(){const bar=$('#progressBar');const onScroll=()=>{const h=document.documentElement;const sc=h.scrollTop;const height=h.scrollHeight-h.clientHeight;const pct=height>0?(sc/height)*100:0;bar.style.width=pct+'%';};window.addEventListener('scroll',onScroll,{passive:true});onScroll();}
+function quotes(){let i=0;const q=$('#quoteText'),a=$('#quoteAuthor');const next=()=>{i=(i+1)%QUOTES.length;q.textContent=`“${QUOTES[i].q}”`;a.textContent=`— ${QUOTES[i].a}`;};$('#nextQuote')?.addEventListener('click',next);setInterval(next,7000);}
+
+function renderChips(){const chips=$('#chips');chips.innerHTML='';const all=document.createElement('label');all.className='chip';all.innerHTML='<input type="radio" name="cat" value="" checked> <span>All</span>';chips.append(all);for(const c of CATEGORIES){const lab=document.createElement('label');lab.className='chip';lab.innerHTML=`<input type="radio" name="cat" value="${c}"> <span>${c}</span>`;chips.append(lab);}}
+
+function favStore(key='fav.posts'){const get=()=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return[]}};const set=a=>{try{localStorage.setItem(key,JSON.stringify(a))}catch{}};const has=id=>get().includes(id);const toggle=id=>{const s=new Set(get());s.has(id)?s.delete(id):s.add(id);set([...s]);};return{get,set,has,toggle};}
+const FAVS=favStore();
+function matches(post,term,cat){const t=(term||'').trim().toLowerCase();const inText=s=>s.toLowerCase().includes(t);const termOk=!t||[post.title,post.excerpt,...post.tags,post.category].some(inText);const catOk=!cat||post.category===cat;return termOk&&catOk;}
+function renderPosts(){const grid=$('#postGrid');grid.innerHTML='';const term=$('#search').value||'';const cat=(document.querySelector('input[name="cat"]:checked')||{}).value||'';const filtered=POSTS.filter(p=>matches(p,term,cat));if(!filtered.length){grid.innerHTML='<p class="form-hint">No posts match yet. Try another search or category.</p>';return;}for(const p of filtered){const tags=p.tags.map(t=>`<span class="tag">${t}</span>`).join(' ');grid.insertAdjacentHTML('beforeend',`<article class="card post"><div class="thumb" aria-hidden="true"></div><div class="card-body"><h3>${p.title}</h3><div class="meta"><span>${p.category}</span><span>•</span><span>${p.minutes} min</span></div><p>${p.excerpt}</p><div class="tags">${tags}</div><div class="actions"><div class="action-left"><button class="btn" data-read="${p.id}" aria-label="Read ${p.title}">Read</button><button class="fav-btn ${FAVS.has(p.id)?'fav-active':''}" data-fav="${p.id}" aria-label="Favorite ${p.title}">${FAVS.has(p.id)?'♥':'♡'}</button></div></div></div></article>`);}$$('button[data-read]').forEach(b=>b.addEventListener('click',()=>openPost(b.getAttribute('data-read'))));$$('button[data-fav]').forEach(b=>b.addEventListener('click',()=>{const id=b.getAttribute('data-fav');FAVS.toggle(id);b.classList.toggle('fav-active');b.textContent=FAVS.has(id)?'♥':'♡';}));}
+
+function openPost(id){const p=POSTS.find(x=>x.id===id);if(!p) return;$('#modalTitle').textContent=p.title;$('#modalMeta').textContent=`${p.category} • ${p.minutes} min`;const body=$('#modalContent');body.innerHTML='';for(const para of p.body){const el=document.createElement('p');el.textContent=para;body.appendChild(el);}const dlg=$('#postModal');const favBtn=$('#favToggle');const setFavUI=()=>{favBtn.textContent=(FAVS.has(p.id)?'♥':'♡')+' Favorite';};setFavUI();favBtn.onclick=()=>{FAVS.toggle(p.id);setFavUI();renderPosts();};if(typeof dlg.showModal==='function') dlg.showModal(); else dlg.setAttribute('open','open');}
+function closePost(){const dlg=$('#postModal');if(typeof dlg.close==='function') dlg.close(); else dlg.removeAttribute('open');}
+
+function prompts(){const txt=$('#promptText');$('#newPrompt').addEventListener('click',()=>{const i=Math.floor(Math.random()*PROMPTS.length);txt.textContent=PROMPTS[i];});const n=$('#nudgeText');let j=0;$('#nextNudge').addEventListener('click',()=>{j=(j+1)%NUDGES.length;n.textContent=NUDGES[j];});}
+function journal(){const key='journal.entries',list=$('#entries'),input=$('#journalText');const load=()=>{try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return[]}};const save=a=>{try{localStorage.setItem(key,JSON.stringify(a))}catch{}};const render=()=>{const es=load();list.innerHTML='';if(!es.length){list.innerHTML='<p class="form-hint">No entries yet.</p>';return;}for(const e of es){const div=document.createElement('div');div.className='entry';div.innerHTML=`<time>${new Date(e.date).toLocaleString()}</time><div class="text"></div><div class="btn-row"><button class="btn btn-ghost" data-del="${e.id}">Delete</button></div>`;div.querySelector('.text').textContent=e.text;list.prepend(div);}$$('button[data-del]').forEach(b=>b.addEventListener('click',()=>{const id=b.getAttribute('data-del');const es=load().filter(x=>x.id!==id);save(es);render();}));};$('#saveEntry').addEventListener('click',()=>{const text=input.value.trim();if(!text) return;const entry={id:Math.random().toString(36).slice(2),date:new Date().toISOString(),text};const es=load();es.push(entry);save(es);input.value='';render();});render();}
+function books(){const grid=$('#booksGrid');grid.innerHTML='';for(const b of BOOKS){grid.insertAdjacentHTML('beforeend',`<article class="card"><header class="card-header"><p class="eyebrow">${b.author}</p><h3>${b.title}</h3></header><div class="card-body"><p>${b.takeaway}</p></div></article>`);}}
+
+function forms(){$('#newsletterForm').addEventListener('submit',e=>{e.preventDefault();$('#newsletterSuccess').hidden=false;});$('#contactForm').addEventListener('submit',e=>{e.preventDefault();$('#contactSuccess').hidden=false;});}
+
+// Dark mode + Theme default (ocean) + Font size
+function mode(){const t=$('#modeToggle');const apply=d=>{document.body.classList.toggle('dark',d);localStorage.setItem('prefers.dark',d?'1':'0');};const saved=localStorage.getItem('prefers.dark');const prefers=saved!==null?saved==='1':(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);apply(prefers);t.addEventListener('click',()=>apply(!document.body.classList.contains('dark')));}
+function theme(){const apply=t=>{document.body.setAttribute('data-theme',t);localStorage.setItem('prefers.theme',t);};const saved=localStorage.getItem('prefers.theme')||'ocean';apply(saved);$$('.theme-pills .pill').forEach(p=>p.addEventListener('click',()=>apply(p.getAttribute('data-theme'))));}
+function fontsize(){const up=$('#fontUp'),down=$('#fontDown');const classes=['','fs-large','fs-xlarge'];const get=()=>Number(localStorage.getItem('prefers.fontscale')||'0');const set=i=>{i=Math.max(0,Math.min(classes.length-1,i));classes.forEach(c=>c&&document.body.classList.remove(c));if(classes[i]) document.body.classList.add(classes[i]);localStorage.setItem('prefers.fontscale',String(i));};set(get());up.addEventListener('click',()=>set(get()+1));down.addEventListener('click',()=>set(get()-1));}
+
+// Modal + Back-to-top
+function modalControls(){$('#closeModal').addEventListener('click',closePost);window.addEventListener('keydown',e=>{if(e.key==='Escape') closePost();});const dlg=$('#postModal');dlg.addEventListener('click',e=>{const rect=dlg.querySelector('.modal-card').getBoundingClientRect();const inside=e.clientX>=rect.left&&e.clientX<=rect.right&&e.clientY>=rect.top&&e.clientY<=rect.bottom;if(!inside) closePost();});}
+function topLink(){const btn=document.querySelector('.back-to-top');if(!btn) return;btn.addEventListener('click',e=>{e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});});}
+
+function boot(){
+  $('#year').textContent=new Date().getFullYear();
+  smoothScroll();scrollSpy();mobileNav();progress();
+  quotes();renderChips();renderPosts();
+  $('#chips').addEventListener('change',renderPosts);
+  $('#search').addEventListener('input',renderPosts);
+  prompts();journal();books();forms();
+  mode();theme();fontsize();modalControls();topLink();
+}
+document.addEventListener('DOMContentLoaded', boot);
