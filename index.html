@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yuga's Journal & Blog</title>
+  <meta name="description" content="A colorful journal: essays, prompts, and gentle inspiration." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-theme="ocean">
+  <div id="progressBar" class="progress-bar" aria-hidden="true"></div>
+
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="#welcome" class="brand" aria-label="Home">
+        <div class="logo" aria-hidden="true">YPP</div>
+        <span class="brand-name">Yuga's</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-list" id="navToggle">Menu</button>
+        <ul class="nav-list" id="nav-list"><li><a href="#welcome" class="nav-link">Welcome</a></li><li><a href="#quote" class="nav-link">Quote</a></li><li><a href="#blog" class="nav-link">Blog</a></li><li><a href="#prompts" class="nav-link">Prompts</a></li><li><a href="#journal" class="nav-link">Journal</a></li><li><a href="#library" class="nav-link">Library</a></li><li><a href="#contact" class="nav-link">Contact</a></li></ul>
+      </nav>
+
+      <div class="toggles" role="group" aria-label="Display options">
+        <div class="theme-pills" role="group" aria-label="Theme colors">
+          <button class="pill lavender" data-theme="lavender" title="Lavender"></button>
+          <button class="pill coral" data-theme="coral" title="Coral"></button>
+          <button class="pill mint" data-theme="mint" title="Mint"></button>
+          <button class="pill sunrise" data-theme="sunrise" title="Sunrise"></button>
+          <button class="pill ocean" data-theme="ocean" title="Ocean"></button>
+          <button class="pill rose" data-theme="rose" title="Rose"></button>
+        </div>
+        <button class="mode-toggle" id="modeToggle" aria-label="Toggle dark mode">🌓</button>
+        <button class="mode-toggle" id="fontUp" aria-label="Increase font size">A+</button>
+        <button class="mode-toggle" id="fontDown" aria-label="Decrease font size">A−</button>
+      </div>
+    </div>
+  </header>
+
+  <svg class="blob blob-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M49.7,-64.4C61.5,-53.4,65.5,-34.6,69.2,-16.3C72.9,2,76.3,19.8,69.4,31.2C62.5,42.6,45.3,47.6,29.6,54.6C13.9,61.6,-0.3,70.6,-16.2,70.9C-32.1,71.2,-49.7,62.8,-62.2,49.5C-74.7,36.2,-82,18.1,-81.6,0.2C-81.2,-17.7,-73.1,-35.4,-60.2,-46.3C-47.3,-57.2,-29.6,-61.2,-11.7,-61.7C6.2,-62.1,24.3,-59.3,49.7,-64.4Z" transform="translate(100 100)" />
+  </svg>
+  <svg class="blob blob-2" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M43.4,-61.9C55.7,-53.1,64.2,-40.7,67.6,-27.2C71,-13.6,69.2,1.2,64.6,14.9C59.9,28.7,52.4,41.3,41.6,51.8C30.8,62.3,15.4,70.7,0.6,70C-14.2,69.2,-28.4,59.3,-39.7,48.7C-51,38,-59.4,26.6,-64.8,12.6C-70.2,-1.5,-72.7,-18.2,-67.2,-31.3C-61.7,-44.4,-48.2,-53.9,-34.2,-62.1C-20.1,-70.2,-10.1,-76.9,2.3,-80.6C14.6,-84.2,29.2,-84.8,43.4,-61.9Z" transform="translate(100 100)" />
+  </svg>
+
+  <main>
+	<section id="welcome" class="section">
+      <div class="bg-photo" aria-hidden="true"></div>
+      <div class="container grid two">
+	  
+	   <!-- Right column: Blob portrait will reference yuga.webp + yuga.jpg -->
+        <div class="about-media blob-frame">
+          <picture>
+            <source srcset="yuga.webp" type="image/webp" />
+            <img
+              src="yuga.jpg"
+              alt="Yuga smiling near the Golden Gate Bridge at sunset"
+              width="560" height="560"
+              class="about-photo-blob"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </picture>
+        </div>	  
+        <div>
+          <header class="section-head">
+            <h2>Greetings, humans (and friendly bots). I’m Yuga Padmaja PasupuLATTE COFFEE 👋</h2>
+            <p class="sub">Senior Software Engineer at Microchip Technology, blogger, and eternal optimist.</p>
+          </header>
+          <p>I build reliable systems by day and write colorful notes by night—small brave steps, steady curiosity, smile(always). Perfection not required—kindness is 🌷</p>
+        <!--  <p>Browse for personal essays, experiments, and prompts you can try today. May something here brighten your path.</p> -->
+          <div class="cta-row">
+            <a href="#blog" class="btn">Read the latest</a>
+            <a href="#contact" class="btn btn-ghost">Say hello</a>
+          </div>
+        </div>
+
+       
+      </div>
+    </section>
+	
+    <section id="quote" class="section section-hero">
+      <div class="container grid two">
+        <div class="hero-copy">
+          <div class="badges">
+            <span class="badge">Creativity</span>
+            <span class="badge">Self‑care</span>
+            <span class="badge">Joy</span>
+          </div>
+          <h1>Colorful notes for a braver, softer life.</h1>
+          <p class="lead">Short essays, thoughtful prompts, and gentle nudges to help you create, rest, and grow—at your pace.</p>
+          <div class="cta-row">
+            <a href="#blog" class="btn">Explore the blog</a>
+            <a href="#prompts" class="btn btn-ghost">Try a prompt</a>
+          </div>
+        </div>
+        <div class="hero-widgets grid stack">
+          <article class="card" id="quoteCard" aria-live="polite">
+            <header class="card-header">
+              <p class="eyebrow">Daily Quote</p>
+              <h3>Words to carry with you</h3>
+            </header>
+            <div class="card-body">
+              <blockquote class="quote">
+                <p id="quoteText">“No mud, no lotus.”</p>
+                <footer id="quoteAuthor">— Thich Nhat Hanh</footer>
+              </blockquote>
+              <button class="btn" id="nextQuote">Another</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <p class="eyebrow">Newsletter</p>
+              <h3>One thoughtful note each month</h3>
+            </header>
+            <div class="card-body">
+              <form id="newsletterForm">
+                <label class="sr-only" for="email">Email</label>
+                <div class="input-row">
+                  <input type="email" id="email" name="email" placeholder="you@example.com" required />
+                  <button class="btn" type="submit">Subscribe</button>
+                </div>
+                <p class="form-hint">No spam. Unsubscribe anytime.</p>
+                <p class="form-success" id="newsletterSuccess" hidden>Thanks! You’re on the list 💌</p>
+              </form>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="blog" class="section">
+      <div class="container">
+        <header class="section-head">
+          <h2>Latest from the Blog</h2>
+          <p class="sub">Honest notes on creativity, self‑care, and growth.</p>
+        </header>
+
+        <div class="filters">
+          <div class="chips" id="chips"></div>
+          <div class="search">
+            <label for="search" class="sr-only">Search posts</label>
+            <input id="search" type="search" placeholder="Search posts…" />
+          </div>
+        </div>
+
+        <div class="grid three" id="postGrid"></div>
+      </div>
+    </section>
+
+    <section id="prompts" class="section alt">
+      <div class="container">
+        <header class="section-head">
+          <h2>Prompts &amp; Inspiration</h2>
+          <p class="sub">Spark momentum in 60 seconds.</p>
+        </header>
+
+        <div class="grid three">
+          <article class="card">
+            <header class="card-header">
+              <p class="eyebrow">Journal Prompt</p>
+              <h3>Write for 5 minutes</h3>
+            </header>
+            <div class="card-body">
+              <p id="promptText">What tiny win can I complete in 10 minutes today?</p>
+              <div class="btn-row">
+                <button class="btn" id="newPrompt">New Prompt</button>
+                <span class="hint">Tip: start with “Today, I noticed…”</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <p class="eyebrow">Inspiration</p>
+              <h3>One tiny nudge</h3>
+            </header>
+            <div class="card-body">
+              <p id="nudgeText">Breathe. Drink water. Take one kind action.</p>
+              <button class="btn" id="nextNudge">Next Card</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <p class="eyebrow">Affirmation</p>
+              <h3>Say it out loud</h3>
+            </header>
+            <div class="card-body">
+              <p class="affirmation">I am allowed to begin again, as many times as I need.</p>
+              <p class="hint">Try whispering it. Then write what beginning again looks like today.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="journal" class="section">
+      <div class="container">
+        <header class="section-head">
+          <h2>Your Private Journal</h2>
+          <p class="sub">Saved to your browser (demo).</p>
+        </header>
+
+        <article class="card">
+          <div class="card-body">
+            <label class="sr-only" for="journalText">Write freely</label>
+            <textarea id="journalText" placeholder="Write freely for a moment…"></textarea>
+            <div class="btn-row">
+              <button class="btn" id="saveEntry">Save</button>
+              <span class="hint">Private to your browser.</span>
+            </div>
+            <div class="entries" id="entries"></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="library" class="section alt">
+      <div class="container">
+        <header class="section-head">
+          <h2>Reading Library</h2>
+          <p class="sub">Books I love with one‑line takeaways.</p>
+        </header>
+
+        <div class="grid three" id="booksGrid"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <header class="section-head">
+          <h2>Say hello</h2>
+          <p class="sub">Tell me what you’re exploring or celebrating.</p>
+        </header>
+
+        <article class="card">
+          <div class="card-body">
+            <form id="contactForm">
+              <div class="grid two">
+                <div class="form-field">
+                  <label for="name">Name</label>
+                  <input id="name" name="name" placeholder="Your name" required />
+                </div>
+                <div class="form-field">
+                  <label for="cemail">Email</label>
+                  <input id="cemail" name="email" type="email" placeholder="you@example.com" required />
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Write me a note…"></textarea>
+              </div>
+              <div class="btn-row">
+                <button class="btn" type="submit">Send</button>
+                <span class="hint">Or email: hello@example.com</span>
+              </div>
+              <p class="form-success" id="contactSuccess" hidden>Thanks for your note — talk soon! 💬</p>
+            </form>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Yuga — Colorful words for a kinder life.</p>
+      <a href="#top" class="back-to-top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <dialog id="postModal">
+    <article class="modal-card">
+      <header class="modal-head">
+        <h3 id="modalTitle">Title</h3>
+        <button id="closeModal" aria-label="Close">✕</button>
+      </header>
+      <div class="modal-body">
+        <div id="modalMeta" class="modal-meta"></div>
+        <div id="modalContent"></div>
+        <div class="modal-actions">
+          <button class="btn" id="favToggle">♡ Favorite</button>
+        </div>
+      </div>
+    </article>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
